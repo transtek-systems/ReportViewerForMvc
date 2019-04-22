@@ -42,7 +42,7 @@ namespace ReportViewerForMvc
             CopyPropertiesHelper.Copy<LocalReport>(ref localReport, properties);
 
             localReport.DataSources.Add(properties.DataSources.ToList());
-
+            CopyPropertiesHelper.CopyEvents(ref localReport, properties);
             try
             {
                 localReport.SetParameters(properties.GetParameters());

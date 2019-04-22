@@ -43,5 +43,20 @@ namespace ReportViewerForMvc
                 catch (TargetInvocationException) { } //Do nothing, just like my boss.
             }
         }
+
+        internal static void CopyEvents<T1, T2>(ref T1 obj, T2 properties)
+        {
+            Type objType = obj.GetType();
+            Type propertiesType = properties.GetType();
+
+            foreach (var eventInfo in propertiesType.GetEvents())
+            {
+                var handler = (Delegate)propertiesType.GetField(eventInfo.Name, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(properties);
+                if (handler != null)
+                {
+                    eventInfo.AddEventHandler(obj, handler);
+                }
+            }
+        }
     }
 }
